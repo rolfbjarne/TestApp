@@ -51,8 +51,23 @@ public partial class AppDelegate : UIApplicationDelegate
 	UIViewController dvc;
 	UIButton button;
 
+	enum UInt32Enum : uint
+	{
+		A, B
+	}
+
 	public void TickOnce ()
 	{
+		var t = new Dictionary<UInt32Enum, object> ();
+
+		try {
+			t [UInt32Enum.A] = "foo";
+			dvc.View.BackgroundColor = UIColor.Green;
+		} catch (Exception e) {
+			Console.WriteLine (e);
+			button.SetTitle (e.Message, UIControlState.Normal);
+			dvc.View.BackgroundColor = UIColor.Red;
+		}
 	}
 
 	void Tapped ()
