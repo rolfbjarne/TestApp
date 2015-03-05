@@ -21,56 +21,26 @@ namespace TestApp
 	public partial class AppDelegate : UIApplicationDelegate
 	{
 		UIWindow window;
-		DialogViewController dvc;
-
-		[DllImport ("libc")]
-		static extern int strlen (IntPtr str);
-		public void NativeCrash ()
-		{
-			strlen (IntPtr.Zero);
-		}
-
-		public void UnhandledException ()
-		{
-			throw new Exception ("Unhandled I am!");
-		}
-
-		public void DivisionByZero ()
-		{
-			int a = 1;
-			int b = 0;
-			int c = a / b;
-		}
-
-		Element CreateStyledStringElement (string caption, NSAction action)
-		{
-			var rv = new StyledStringElement (caption) {
-				BackgroundColor = UIColor.LightGray,
-				Alignment = UITextAlignment.Center,
-			};
-			rv.Tapped += action;
-			return rv;
-		}
+		UIViewController dvc;
 
 		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 		{
 			window = new UIWindow (UIScreen.MainScreen.Bounds);
 
-			dvc = new DialogViewController (
-				new RootElement ("Test App")
-				{
-					new Section ("Actions") {
-						CreateStyledStringElement ("Division by zero", () => DivisionByZero ()),
-						CreateStyledStringElement ("Unhandled exception", () => UnhandledException ()),
-						CreateStyledStringElement ("Native crash", () => NativeCrash ()),
-					},
-				}
-			);
+			dvc = new UIViewController ();
+			dvc.View.BackgroundColor = UIColor.Blue;
 		
-			dvc.Autorotate = true;
-
 			window.RootViewController = dvc;
 			window.MakeKeyAndVisible ();
+
+
+			NSNotificationCenter.DefaultCenter.AddObserver (null, (v) => {
+				Console.WriteLine ("Notification: {0}", v);
+			});
+
+			NSTimer.CreateRepeatingScheduledTimer (1, () => {
+				new NSThread ().Start ();
+			});
 
 			return true;
 		}
