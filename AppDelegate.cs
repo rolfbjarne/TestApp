@@ -21,56 +21,19 @@ namespace TestApp
 	public partial class AppDelegate : UIApplicationDelegate
 	{
 		UIWindow window;
-		DialogViewController dvc;
-
-		[DllImport ("libc")]
-		static extern int strlen (IntPtr str);
-		public void NativeCrash ()
-		{
-			strlen (IntPtr.Zero);
-		}
-
-		public void UnhandledException ()
-		{
-			throw new Exception ("Unhandled I am!");
-		}
-
-		public void DivisionByZero ()
-		{
-			int a = 1;
-			int b = 0;
-			int c = a / b;
-		}
-
-		Element CreateStyledStringElement (string caption, NSAction action)
-		{
-			var rv = new StyledStringElement (caption) {
-				BackgroundColor = UIColor.LightGray,
-				Alignment = UITextAlignment.Center,
-			};
-			rv.Tapped += action;
-			return rv;
-		}
+		UIViewController dvc;
 
 		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 		{
 			window = new UIWindow (UIScreen.MainScreen.Bounds);
 
-			dvc = new DialogViewController (
-				new RootElement ("Test App")
-				{
-					new Section ("Actions") {
-						CreateStyledStringElement ("Division by zero", () => DivisionByZero ()),
-						CreateStyledStringElement ("Unhandled exception", () => UnhandledException ()),
-						CreateStyledStringElement ("Native crash", () => NativeCrash ()),
-					},
-				}
-			);
+			dvc = new UIViewController ();
+			dvc.View.BackgroundColor = UIColor.Blue;
 		
-			dvc.Autorotate = true;
-
 			window.RootViewController = dvc;
 			window.MakeKeyAndVisible ();
+
+			Console.WriteLine ("a: {0}", strlen ("aToZ"));
 
 			return true;
 		}
@@ -78,6 +41,54 @@ namespace TestApp
 		static void Main (string[] args)
 		{
 			UIApplication.Main (args, null, "AppDelegate");
+		}
+
+
+		[DllImport ("libc")]
+		static extern int strlen ([MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef=typeof(UTF8StringMarshaler), MarshalCookie = "ChocolateCookie")] string str);
+
+		[Preserve(AllMembers = true)]
+		class UTF8StringMarshaler : ICustomMarshaler
+		{
+			static UTF8StringMarshaler singleton;
+
+			IntPtr ICustomMarshaler.MarshalManagedToNative(object managedObject)
+			{
+				return Marshal.StringToHGlobalAuto ((string) managedObject);
+			}
+
+			object ICustomMarshaler.MarshalNativeToManaged(IntPtr nativeDataPtr)
+			{
+				if (nativeDataPtr == IntPtr.Zero)
+					return null;
+
+				return Marshal.PtrToStringAuto (nativeDataPtr);
+			}
+
+			void ICustomMarshaler.CleanUpNativeData(IntPtr nativeDataPtr)
+			{
+			}
+
+			void ICustomMarshaler.CleanUpManagedData(object managedObject)
+			{
+			}
+
+			int ICustomMarshaler.GetNativeDataSize()
+			{
+				throw new NotImplementedException();
+			}
+
+			public static ICustomMarshaler GetInstance(string cookie)
+			{
+				Console.WriteLine ("UTF8StringMarshaler.GetInstance ({0} IsNull: {1} Length: {2})", cookie, cookie == null, cookie == null ? "N/A" : cookie.Length.ToString ());
+				if (cookie != "ChocolateCookie")
+					Console.WriteLine ("FAILED");
+				if (singleton == null)
+				{
+					return singleton = new UTF8StringMarshaler();
+				}
+				return singleton;
+			}
 		}
 	}
 }
