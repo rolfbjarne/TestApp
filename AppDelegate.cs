@@ -53,6 +53,14 @@ public partial class AppDelegate : UIApplicationDelegate
 
 	public void TickOnce ()
 	{
+		var v = (nfloat) 40 - (nfloat) 1;
+		Console.WriteLine (v); // prints 0
+		// somehow v numerically (v != 39) ends up in the green branch (optimizations?), so convert to string first (to prevent any optimizations).
+		if (v.ToString () != "39") {
+			dvc.View.BackgroundColor = UIColor.Red;
+		} else {
+			dvc.View.BackgroundColor = UIColor.Green;
+		}
 	}
 
 	void Tapped ()

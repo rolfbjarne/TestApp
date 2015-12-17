@@ -67,6 +67,7 @@
     <MtouchProfiling>true</MtouchProfiling>
     <MtouchLink>Full</MtouchLink>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <MtouchFloat32>true</MtouchFloat32>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <Optimize>False</Optimize>
