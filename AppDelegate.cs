@@ -53,6 +53,64 @@ public partial class AppDelegate : UIApplicationDelegate
 
 	public void TickOnce ()
 	{
+		object obj;
+		var watch = new System.Diagnostics.Stopwatch ();
+
+		{
+			Console.WriteLine ("Running ConcurrentDictionary test...");
+			watch.Restart ();
+			var dic = new ConcurrentDictionary<long, object> ();
+			for (long i = 0; i < 6000; i++)
+				dic.TryAdd (i, null);
+			watch.Stop ();
+			Console.WriteLine ("Added in {0}ms", watch.ElapsedMilliseconds);
+
+			watch.Restart ();
+			var c = dic.Count;
+			var emax = 10000000 / 100;
+			for (long i = 0; i < emax; i++)
+				dic.TryGetValue (i % c, out obj);
+			watch.Stop ();
+			Console.WriteLine ("Fetched {1} existing in {0}ms", watch.ElapsedMilliseconds, emax);
+			
+			watch.Restart ();
+			var nmax = 10000000 / 100;
+			for (long i = 0; i < nmax; i++)
+				dic.TryGetValue (i + c, out obj);
+			watch.Stop ();
+			Console.WriteLine ("Fetched {1} non-existing in {0}ms", watch.ElapsedMilliseconds, nmax);
+
+			Console.WriteLine ("----");
+		}
+
+		{
+			Console.WriteLine ("Running Dictionary test...");
+			watch.Restart ();
+			var dic = new Dictionary<long, object> ();
+			for (long i = 0; i < 6000; i++)
+				dic.Add (i, null);
+			watch.Stop ();
+			Console.WriteLine ("Added in {0}ms", watch.ElapsedMilliseconds);
+
+			watch.Restart ();
+			watch.Start ();
+			var c = dic.Count;
+			var emax = 10000000;
+			for (long i = 0; i < emax; i++)
+				dic.TryGetValue (i % c, out obj);
+			watch.Stop ();
+			Console.WriteLine ("Fetched {1} existing in {0}ms", watch.ElapsedMilliseconds, emax);
+
+			watch.Restart ();
+			watch.Start ();
+			var nmax = 10000000;
+			for (long i = 0; i < nmax; i++)
+				dic.TryGetValue (i + c, out obj);
+			watch.Stop ();
+			Console.WriteLine ("Fetched {1} non-existing in {0}ms", watch.ElapsedMilliseconds, nmax);
+
+			Console.WriteLine ("----");
+		}
 	}
 
 	void Tapped ()
