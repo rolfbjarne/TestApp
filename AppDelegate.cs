@@ -51,8 +51,29 @@ public partial class AppDelegate : UIApplicationDelegate
 	UIViewController dvc;
 	UIButton button;
 
+	private async Task AwaitOnTcsTask()
+	{
+		TaskScheduler.UnobservedTaskException += (sender, e) => { Console.WriteLine("You should not see this!"); };
+
+		TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+
+		tcs.SetException(new Exception());
+
+		try
+		{
+			await tcs.Task;
+		}
+		catch (Exception)
+		{
+		}
+		Console.WriteLine ("Done");
+	}
+
 	public void TickOnce ()
 	{
+		Task.Run (async () => {
+			await AwaitOnTcsTask ();
+		});
 	}
 
 	void Tapped ()
@@ -88,4 +109,5 @@ public partial class AppDelegate : UIApplicationDelegate
 	{
 		UIApplication.Main (args, null, "AppDelegate");
 	}
+
 }
