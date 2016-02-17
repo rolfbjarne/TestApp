@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -35,7 +36,7 @@ using MapKit;
 using MediaPlayer;
 using MessageUI;
 using ObjCRuntime;
-using OpenTK;
+using OpenTK; 
 using ReplayKit;
 using Social;
 using SpriteKit;
@@ -66,17 +67,8 @@ public partial class AppDelegate : UIApplicationDelegate
 
 		NSTimer.CreateScheduledTimer (0.1, (v) => TickOnce ());
 
-		dvc = new UIViewController ();
-		dvc.View.BackgroundColor = UIColor.White;
-		button = new UIButton (window.Bounds);
-		button.TouchDown += (object sender, EventArgs e) => 
-		{
-			Tapped ();
-		};
-		button.SetTitleColor (UIColor.Blue, UIControlState.Normal);
-		button.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
-		button.SetTitle ("Click here", UIControlState.Normal);
-		dvc.Add (button);
+		dvc = new C ();
+		dvc.View.BackgroundColor = UIColor.Green;
 
 		window.RootViewController = dvc;
 		window.MakeKeyAndVisible ();
@@ -87,5 +79,58 @@ public partial class AppDelegate : UIApplicationDelegate
 	static void Main (string[] args)
 	{
 		UIApplication.Main (args, null, "AppDelegate");
+	}
+}
+
+class C : UIViewController
+{
+	public override void ViewDidLoad ()
+	{
+		base.ViewDidLoad ();
+
+		UIScrollView scrollView = new UIScrollView(new CGRect(0, 0, this.View.Bounds.Width, this.View.Bounds.Height));
+
+		var pageWidth = scrollView.Frame.Size.Width;
+		float pageHeight = 0;
+
+		scrollView.BackgroundColor = UIColor.White;
+		scrollView.Frame = new CGRect(0,0, pageWidth, pageHeight);
+		scrollView.ClipsToBounds = false;
+		scrollView.Scrolled += HandleScrolled;
+		scrollView.DecelerationEnded += HandleDecelerationEnded;
+
+		int count = 3;
+		var scrollFrame = scrollView.Frame;
+		scrollFrame.Width = scrollFrame.Width * count;
+		scrollView.ContentSize = scrollFrame.Size;
+		scrollView.PagingEnabled = true;
+		scrollView.ShowsHorizontalScrollIndicator = false;
+
+		List<UIViewController> controllers = new List<UIViewController>();
+
+		controllers.Add(new UIViewController());
+		controllers.Add(new UIViewController());
+		controllers.Add(new UIViewController());
+
+		UIPageControl pageControl = new UIPageControl();
+
+		pageControl.HorizontalAlignment = UIControlContentHorizontalAlignment.Center;
+		pageControl.Pages = count;
+		pageControl.UserInteractionEnabled = false;
+		pageControl.BackgroundColor = UIColor.Clear;
+
+		pageControl.CurrentPage = 0;
+
+		this.View = scrollView;
+	}
+
+	void HandleDecelerationEnded (object sender, EventArgs e)
+	{
+		Console.WriteLine ("Ended");
+	}
+
+	void HandleScrolled (object sender, EventArgs e)
+	{
+		Console.WriteLine ("Scrolled");
 	}
 }
