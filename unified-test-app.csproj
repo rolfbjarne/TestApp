@@ -89,6 +89,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="MonoTouch.Dialog-1" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

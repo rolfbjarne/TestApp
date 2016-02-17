@@ -66,7 +66,21 @@ public partial class AppDelegate : UIApplicationDelegate
 
 		NSTimer.CreateScheduledTimer (0.1, (v) => TickOnce ());
 
-		dvc = new UIViewController ();
+		var element = new MonoTouch.Dialog.StyledMultilineElement(
+			"Package",
+			"Vodacom" + Environment.NewLine + "Test package",
+			UITableViewCellStyle.Subtitle
+		);
+		element.TextColor = UIColor.Red;
+		element.DetailColor = UIColor.Blue;
+		var c = new MonoTouch.Dialog.DialogViewController (new MonoTouch.Dialog.RootElement ("Root") {
+			new MonoTouch.Dialog.Section {
+				element
+			}
+		});
+
+
+		dvc = c;
 		dvc.View.BackgroundColor = UIColor.White;
 		button = new UIButton (window.Bounds);
 		button.TouchDown += (object sender, EventArgs e) => 
