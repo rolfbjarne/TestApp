@@ -88,6 +88,7 @@ public partial class AppDelegate : UIApplicationDelegate
 		window = new UIWindow (UIScreen.MainScreen.Bounds);
 
 		NSTimer.CreateScheduledTimer (0.1, (v) => TickOnce ());
+		NSTimer.CreateRepeatingScheduledTimer (1, (v) => GC.Collect ());
 
 		dvc = new UIViewController ();
 		dvc.View.BackgroundColor = UIColor.White;
