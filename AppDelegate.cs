@@ -44,6 +44,21 @@ using SystemConfiguration;
 using UIKit;
 #endregion
 
+class GCMonitor {
+	static int counter;
+	int id = counter++;
+
+	public GCMonitor ()
+	{
+		Console.WriteLine ("Created: {0}", id);
+	}
+
+	~GCMonitor ()
+	{
+		Console.WriteLine ("Collected: {0} FAILED", id);
+	}
+}
+
 [Register ("AppDelegate")]
 public partial class AppDelegate : UIApplicationDelegate
 {
@@ -51,8 +66,16 @@ public partial class AppDelegate : UIApplicationDelegate
 	UIViewController dvc;
 	UIButton button;
 
+	ConditionalWeakTable<UIControl, GCMonitor> table = new ConditionalWeakTable<UIControl, GCMonitor> ();
+//	List<UIControl> controls = new List<UIControl> ();
+
 	public void TickOnce ()
 	{
+		var ctrl = new UIControl ();
+		ctrl.GetType ().GetMethod ("MarkDirty", BindingFlags.Instance | BindingFlags.NonPublic, null, Type.EmptyTypes, null).Invoke (ctrl, new Object [] {} ); // make toggle ref object
+		table.Add (ctrl, new GCMonitor ());
+		ctrl.DangerousRetain (); // this will cause the 'ctrl' instance to be marked as a strong toggle ref object, but that won't prevent the value in the CWT from being collected
+//		controls.Add (ctrl); // this will prevent the value in the CWT from being collected
 	}
 
 	void Tapped ()
