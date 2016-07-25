@@ -53,12 +53,16 @@ public partial class AppDelegate : UIApplicationDelegate
 
 	public void TickOnce ()
 	{
+		var obj = new CoreAudioKit.AUViewController ();
+		Console.WriteLine (obj.Handle);
 	}
 
 	void Tapped ()
 	{
 		TickOnce ();
 	}
+
+
 
 	public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 	{
@@ -69,7 +73,7 @@ public partial class AppDelegate : UIApplicationDelegate
 		dvc = new UIViewController ();
 		dvc.View.BackgroundColor = UIColor.White;
 		button = new UIButton (window.Bounds);
-		button.TouchDown += (object sender, EventArgs e) => 
+		button.TouchDown += (object sender, EventArgs e) =>
 		{
 			Tapped ();
 		};
@@ -84,7 +88,7 @@ public partial class AppDelegate : UIApplicationDelegate
 		return true;
 	}
 
-	static void Main (string[] args)
+	static void Main (string [] args)
 	{
 		UIApplication.Main (args, null, "AppDelegate");
 	}

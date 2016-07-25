@@ -28,8 +28,8 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchProfiling>true</MtouchProfiling>
-    <MtouchExtraArgs>-vvvv -time -time</MtouchExtraArgs>
-    <MtouchLink>None</MtouchLink>
+    <MtouchExtraArgs>-vvvv -time -time --registrar:static</MtouchExtraArgs>
+    <MtouchLink>Full</MtouchLink>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -65,8 +65,9 @@
     <MtouchUseSGen>true</MtouchUseSGen>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchProfiling>true</MtouchProfiling>
-    <MtouchLink>Full</MtouchLink>
+    <MtouchLink>SdkOnly</MtouchLink>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <DeviceSpecificBuild>false</DeviceSpecificBuild>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <Optimize>False</Optimize>
@@ -96,6 +97,13 @@
   <ItemGroup>
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Messaging.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="unified-test-app.srtfh\unified-test-app.srtfh.csproj">
+      <IsWatchApp>true</IsWatchApp>
+      <Project>{318CF372-6D5F-4F47-9FC0-703A226AA778}</Project>
+      <Name>unified-test-app.srtfh</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
