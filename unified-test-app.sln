@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unified-test-app", "unified-test-app.csproj", "{87774870-23D7-4A35-A542-3C649DA44978}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lib", "lib\lib.csproj", "{A3B0A53D-E8EF-4A5A-9CAD-D33704CF437F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unified-test-app.srtfh", "unified-test-app.srtfh\unified-test-app.srtfh.csproj", "{318CF372-6D5F-4F47-9FC0-703A226AA778}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unified-test-app.srtfhExtension", "unified-test-app.srtfhExtension\unified-test-app.srtfhExtension.csproj", "{8FEB4BED-4AC6-4D96-881E-119059515FDF}"
@@ -25,14 +23,6 @@ Global
 		{87774870-23D7-4A35-A542-3C649DA44978}.Release|iPhone.Build.0 = Release|iPhone
 		{87774870-23D7-4A35-A542-3C649DA44978}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{87774870-23D7-4A35-A542-3C649DA44978}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
-		{A3B0A53D-E8EF-4A5A-9CAD-D33704CF437F}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{A3B0A53D-E8EF-4A5A-9CAD-D33704CF437F}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{A3B0A53D-E8EF-4A5A-9CAD-D33704CF437F}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{A3B0A53D-E8EF-4A5A-9CAD-D33704CF437F}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{A3B0A53D-E8EF-4A5A-9CAD-D33704CF437F}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{A3B0A53D-E8EF-4A5A-9CAD-D33704CF437F}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{A3B0A53D-E8EF-4A5A-9CAD-D33704CF437F}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{A3B0A53D-E8EF-4A5A-9CAD-D33704CF437F}.Release|iPhone.Build.0 = Release|Any CPU
 		{318CF372-6D5F-4F47-9FC0-703A226AA778}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
 		{318CF372-6D5F-4F47-9FC0-703A226AA778}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
 		{318CF372-6D5F-4F47-9FC0-703A226AA778}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
