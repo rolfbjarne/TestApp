@@ -19,14 +19,14 @@ namespace unifiedtestapp.srtfhExtension
 			// Configure interface objects here.
 			Console.WriteLine ("{0} awake with context", this);
 
-			NSTimer.CreateRepeatingScheduledTimer (0.1, (v) =>
+			NSTimer.CreateRepeatingScheduledTimer (1, (obj) =>
 			{
-				for (int i = 0; i < 100; i++) {
-					GC.KeepAlive (new C ());
+				try {
+					var asm = System.Reflection.Assembly.ReflectionOnlyLoad (GetType ().Assembly.FullName);
+					Console.WriteLine ("Reflection only: {0}", asm);
+				} catch (Exception e) {
+					Console.WriteLine ("FAIL: {0}", e);
 				}
-				GC.Collect ();
-				Console.WriteLine ($"Allocated: {C.Allocated} Collected: {C.Collected} GC Memory: {GC.GetTotalMemory (true)}");
-				GC.WaitForPendingFinalizers ();
 			});
 		}
 
