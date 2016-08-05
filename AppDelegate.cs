@@ -53,8 +53,6 @@ public partial class AppDelegate : UIApplicationDelegate
 
 	public void TickOnce ()
 	{
-		var obj = new CoreAudioKit.AUViewController ();
-		Console.WriteLine (obj.Handle);
 	}
 
 	void Tapped ()
@@ -62,9 +60,7 @@ public partial class AppDelegate : UIApplicationDelegate
 		TickOnce ();
 	}
 
-
-
-	public override bool FinishedLaunching (UIApplication app, NSDictionary options)
+	public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 	{
 		window = new UIWindow (UIScreen.MainScreen.Bounds);
 
@@ -85,12 +81,7 @@ public partial class AppDelegate : UIApplicationDelegate
 		window.RootViewController = dvc;
 		window.MakeKeyAndVisible ();
 
-		try {
-			var asm = System.Reflection.Assembly.ReflectionOnlyLoad (GetType ().Assembly.FullName);
-			Console.WriteLine ("Reflection only: {0}", asm);
-		} catch (Exception e) {
-			Console.WriteLine ("FAIL: {0}", e);
-		}
+		Console.WriteLine ("Yay!");
 
 		return true;
 	}

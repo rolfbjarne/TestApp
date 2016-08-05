@@ -7,7 +7,7 @@
 	<key>CFBundleName</key>
 	<string>unified-test-app.srtfh</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.xamarin.unifiedtestapp.watchkitapp</string>
+	<string>com.xamarin.unifiedtestapp3.watchkitapp</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleShortVersionString</key>
@@ -22,7 +22,7 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
-	<string>com.xamarin.unifiedtestapp</string>
+	<string>com.xamarin.unifiedtestapp3</string>
 	<key>WKWatchKitApp</key>
 	<true/>
 	<key>XSAppIconAssets</key>

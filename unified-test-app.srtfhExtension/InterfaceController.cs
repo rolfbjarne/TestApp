@@ -10,6 +10,8 @@ namespace unifiedtestapp.srtfhExtension
 		protected InterfaceController (IntPtr handle) : base (handle)
 		{
 			// Note: this .ctor should not contain any initialization logic.
+			Console.WriteLine ("ctor");
+
 		}
 
 		public override void Awake (NSObject context)
@@ -18,34 +20,6 @@ namespace unifiedtestapp.srtfhExtension
 
 			// Configure interface objects here.
 			Console.WriteLine ("{0} awake with context", this);
-
-			NSTimer.CreateRepeatingScheduledTimer (1, (obj) =>
-			{
-				try {
-					var asm = System.Reflection.Assembly.ReflectionOnlyLoad (GetType ().Assembly.FullName);
-					Console.WriteLine ("Reflection only: {0}", asm);
-				} catch (Exception e) {
-					Console.WriteLine ("FAIL: {0}", e);
-				}
-			});
-		}
-
-		class C
-		{
-			static int Counter;
-			public static int Allocated;
-			public static int Collected;
-			public int ID;
-
-			public C ()
-			{
-				ID = ++Counter;
-				Allocated++;
-			}
-			~C ()
-			{
-				Collected++;
-			}
 		}
 
 		public override void WillActivate ()

@@ -7,7 +7,7 @@
 	<key>CFBundleName</key>
 	<string>unified-test-app.srtfhExtension</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.xamarin.unifiedtestapp.watchkitapp.watchkitextension</string>
+	<string>com.xamarin.unifiedtestapp3.watchkitapp.watchkitextension</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleShortVersionString</key>
@@ -21,12 +21,17 @@
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>WKAppBundleIdentifier</key>
-			<string>com.xamarin.unifiedtestapp.watchkitapp</string>
+			<string>com.xamarin.unifiedtestapp3.watchkitapp</string>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>
 	</dict>
 	<key>RemoteInterfacePrincipleClass</key>
 	<string>InterfaceController</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>
