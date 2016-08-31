@@ -7,6 +7,29 @@ namespace unifiedtestapp.srtfhExtension
 {
 	public partial class InterfaceController : WKInterfaceController
 	{
+		delegate void foo ();
+
+		void ffoo ()
+		{
+			throw new Exception ("bar");
+		}
+
+		public void TickOnce ()
+		{
+			var d = new foo (ffoo);
+			var ar = d.BeginInvoke ((IAsyncResult ar2) =>
+			{
+				Console.WriteLine ("huh");
+			}, null);
+			try {
+				d.EndInvoke (ar);
+				Console.WriteLine ("FAILED");
+			} catch (Exception e) {
+				Console.WriteLine ($"e: {e}");
+			}
+		}
+
+
 		protected InterfaceController (IntPtr handle) : base (handle)
 		{
 			// Note: this .ctor should not contain any initialization logic.
@@ -20,6 +43,8 @@ namespace unifiedtestapp.srtfhExtension
 
 			// Configure interface objects here.
 			Console.WriteLine ("{0} awake with context", this);
+
+			TickOnce ();
 		}
 
 		public override void WillActivate ()

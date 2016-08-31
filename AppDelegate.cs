@@ -51,8 +51,26 @@ public partial class AppDelegate : UIApplicationDelegate
 	UIViewController dvc;
 	UIButton button;
 
+	delegate void foo ();
+
+	void ffoo ()
+	{
+		throw new Exception ("bar");
+	}
+
 	public void TickOnce ()
 	{
+		var d = new foo (ffoo);
+		var ar = d.BeginInvoke ((IAsyncResult ar2) =>
+		{
+			Console.WriteLine ("huh");
+		}, null);
+		try {
+			d.EndInvoke (ar);
+			Console.WriteLine ("FAILED");
+		} catch (Exception e) {
+			Console.WriteLine ($"e: {e}");
+		}
 	}
 
 	void Tapped ()
