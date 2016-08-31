@@ -20,8 +20,6 @@ namespace unifiedtestapp.srtfhExtension
 
 			// Configure interface objects here.
 			Console.WriteLine ("{0} awake with context", this);
-
-			ExtensionDelegate.ScheduleNextBackgroundUpdate ();
 		}
 
 		public override void WillActivate ()
