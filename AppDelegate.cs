@@ -44,6 +44,7 @@ using SystemConfiguration;
 using UIKit;
 #endregion
 
+
 [Register ("AppDelegate")]
 public partial class AppDelegate : UIApplicationDelegate
 {
@@ -60,17 +61,6 @@ public partial class AppDelegate : UIApplicationDelegate
 
 	public void TickOnce ()
 	{
-		var d = new foo (ffoo);
-		var ar = d.BeginInvoke ((IAsyncResult ar2) =>
-		{
-			Console.WriteLine ("huh");
-		}, null);
-		try {
-			d.EndInvoke (ar);
-			Console.WriteLine ("FAILED");
-		} catch (Exception e) {
-			Console.WriteLine ($"e: {e}");
-		}
 	}
 
 	void Tapped ()

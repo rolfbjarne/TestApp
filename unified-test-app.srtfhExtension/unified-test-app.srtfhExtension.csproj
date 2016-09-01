@@ -91,6 +91,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Xamarin.WatchOS" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\Contents.json" />
