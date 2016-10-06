@@ -1,86 +1,90 @@
-//
-// AppDelegate.cs: test app for various stuff.
-//
-// Authors:
-//    Rolf Bjarne Kvinge <rolf@xamarin.com>
-//
-// Copyright 2013 Xamarin Inc.
-//
-
+#region Imports
 using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Collections;
+using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
+using System.Security;
+using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
 
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
-using MonoTouch.Dialog;
+using AddressBook;
+using AudioUnit;
+using AVFoundation;
+using CoreAnimation;
+using CoreFoundation;
+using CoreGraphics;
+using CoreImage;
+using CoreMedia;
+using CoreText;
+using EventKit;
+using ExternalAccessory;
+using Foundation;
+using JavaScriptCore;
+using MapKit;
+using MediaPlayer;
+using MessageUI;
+using ObjCRuntime;
+using OpenTK;
+using ReplayKit;
+using Social;
+using SpriteKit;
+using StoreKit;
+using SystemConfiguration;
+using UIKit;
+#endregion
 
-namespace TestApp
+[Register ("AppDelegate")]
+public partial class AppDelegate : UIApplicationDelegate
 {
-	[Register ("AppDelegate")]
-	public partial class AppDelegate : UIApplicationDelegate
+	UIWindow window;
+	UIViewController dvc;
+	UIButton button;
+
+	public void TickOnce ()
 	{
-		UIWindow window;
-		DialogViewController dvc;
+	}
 
-		[DllImport ("libc")]
-		static extern int strlen (IntPtr str);
-		public void NativeCrash ()
+	void Tapped ()
+	{
+		TickOnce ();
+	}
+
+	public override bool FinishedLaunching (UIApplication app, NSDictionary options)
+	{
+		window = new UIWindow (UIScreen.MainScreen.Bounds);
+
+		NSTimer.CreateScheduledTimer (0.1, (v) => TickOnce ());
+
+		dvc = new UIViewController ();
+		dvc.View.BackgroundColor = UIColor.White;
+		button = new UIButton (window.Bounds);
+		button.TouchDown += (object sender, EventArgs e) => 
 		{
-			strlen (IntPtr.Zero);
-		}
+			Tapped ();
+		};
+		button.SetTitleColor (UIColor.Blue, UIControlState.Normal);
+		button.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
+		button.SetTitle ("Click here", UIControlState.Normal);
+		dvc.Add (button);
 
-		public void UnhandledException ()
-		{
-			throw new Exception ("Unhandled I am!");
-		}
+		window.RootViewController = dvc;
+		window.MakeKeyAndVisible ();
 
-		public void DivisionByZero ()
-		{
-			int a = 1;
-			int b = 0;
-			int c = a / b;
-		}
+		return true;
+	}
 
-		Element CreateStyledStringElement (string caption, NSAction action)
-		{
-			var rv = new StyledStringElement (caption) {
-				BackgroundColor = UIColor.LightGray,
-				Alignment = UITextAlignment.Center,
-			};
-			rv.Tapped += action;
-			return rv;
-		}
-
-		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
-		{
-			window = new UIWindow (UIScreen.MainScreen.Bounds);
-
-			dvc = new DialogViewController (
-				new RootElement ("Test App")
-				{
-					new Section ("Actions") {
-						CreateStyledStringElement ("Division by zero", () => DivisionByZero ()),
-						CreateStyledStringElement ("Unhandled exception", () => UnhandledException ()),
-						CreateStyledStringElement ("Native crash", () => NativeCrash ()),
-					},
-				}
-			);
-		
-			dvc.Autorotate = true;
-
-			window.RootViewController = dvc;
-			window.MakeKeyAndVisible ();
-
-			return true;
-		}
-
-		static void Main (string[] args)
-		{
-			UIApplication.Main (args, null, "AppDelegate");
-		}
+	static void Main (string[] args)
+	{
+		UIApplication.Main (args, null, "AppDelegate");
 	}
 }
-
-
-
