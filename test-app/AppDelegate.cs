@@ -52,6 +52,7 @@ public partial class AppDelegate : UIApplicationDelegate
 
 	public void TickOnce ()
 	{
+		var sftp = new Renci.SshNet.SftpClient ("servername", 0, "{ username }", "{ password}");
 	}
 
 	void Tapped ()
