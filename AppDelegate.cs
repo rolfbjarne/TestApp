@@ -44,48 +44,34 @@ using SystemConfiguration;
 using UIKit;
 #endregion
 
+[AttributeUsage (AttributeTargets.All, AllowMultiple = true)]
+class TestCaseAttribute : Attribute
+{
+	public TestCaseAttribute (object type) {}
+}
+
 [Register ("AppDelegate")]
-public partial class AppDelegate : UIApplicationDelegate
+public class AppDelegate : UIApplicationDelegate
 {
 	UIWindow window;
 	UIViewController dvc;
-	UIButton button;
 
-	public void TickOnce ()
+	[TestCase (typeof (System.Net.Http.HttpClientHandler))]
+	public static void Main (string[] args)
 	{
+		Console.WriteLine (typeof (AppDelegate).GetMethod ("Main").GetCustomAttributes (typeof (TestCaseAttribute), false));
+		//Console.WriteLine (new System.Net.Http.HttpClientHandler ()); // <-- this makes the app launch
+		UIApplication.Main (args, null, "AppDelegate");
 	}
 
-	void Tapped ()
-	{
-		TickOnce ();
-	}
-
-	public override bool FinishedLaunching (UIApplication app, NSDictionary options)
+	public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 	{
 		window = new UIWindow (UIScreen.MainScreen.Bounds);
-
-		NSTimer.CreateScheduledTimer (0.1, (v) => TickOnce ());
-
 		dvc = new UIViewController ();
-		dvc.View.BackgroundColor = UIColor.White;
-		button = new UIButton (window.Bounds);
-		button.TouchDown += (object sender, EventArgs e) => 
-		{
-			Tapped ();
-		};
-		button.SetTitleColor (UIColor.Blue, UIControlState.Normal);
-		button.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
-		button.SetTitle ("Click here", UIControlState.Normal);
-		dvc.Add (button);
-
 		window.RootViewController = dvc;
 		window.MakeKeyAndVisible ();
 
 		return true;
 	}
 
-	static void Main (string[] args)
-	{
-		UIApplication.Main (args, null, "AppDelegate");
-	}
 }
