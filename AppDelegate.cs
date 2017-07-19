@@ -53,6 +53,7 @@ public partial class AppDelegate : UIApplicationDelegate
 
 	public void TickOnce ()
 	{
+		Console.WriteLine (typeof (Microsoft.FSharp.Core.AbstractClassAttribute));
 	}
 
 	void Tapped ()
