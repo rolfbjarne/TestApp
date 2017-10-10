@@ -28,8 +28,8 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchProfiling>true</MtouchProfiling>
-    <MtouchExtraArgs>-vvvv -time -time</MtouchExtraArgs>
-    <MtouchLink>None</MtouchLink>
+    <MtouchExtraArgs>-vvvv -time -time --registrar:static</MtouchExtraArgs>
+    <MtouchLink>Full</MtouchLink>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -45,51 +45,48 @@
     <MtouchUseSGen>true</MtouchUseSGen>
     <MtouchExtraArgs>-v -v -v</MtouchExtraArgs>
     <MtouchArch>i386</MtouchArch>
+    <DeviceSpecificBuild></DeviceSpecificBuild>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>__IOS__;__MOBILE__;__UNIFIED__;DEBUG;SECURITY_DEP;MONO_FEATURE_APPLETLS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <CodesignKey>iPhone Developer: Rolf Kvinge (CZ9YXM2X9A)</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <IpaPackageName>
     </IpaPackageName>
     <MtouchDebug>True</MtouchDebug>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <MtouchArch>ARMv7</MtouchArch>
     <MtouchExtraArgs>-vvvv</MtouchExtraArgs>
-    <MtouchUseSGen>true</MtouchUseSGen>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <MtouchArch>ARM64</MtouchArch>
     <MtouchProfiling>true</MtouchProfiling>
     <MtouchLink>Full</MtouchLink>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <DeviceSpecificBuild>false</DeviceSpecificBuild>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <IOSDebugOverWiFi>true</IOSDebugOverWiFi>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
-    <Optimize>False</Optimize>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <MtouchArch>ARMv7, ARM64</MtouchArch>
-    <MtouchUseSGen>true</MtouchUseSGen>
-    <DebugSymbols>true</DebugSymbols>
-    <MtouchEnableGenericValueTypeSharing>false</MtouchEnableGenericValueTypeSharing>
-    <MtouchUseRefCounting>true</MtouchUseRefCounting>
-    <MtouchExtraArgs>-gcc_flags -v -vvvv</MtouchExtraArgs>
-    <BuildIpa>true</BuildIpa>
-    <IpaPackageName>
-    </IpaPackageName>
+    <MtouchArch>ARM64</MtouchArch>
+    <DebugSymbols>false</DebugSymbols>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="System.Core" />
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

@@ -1,48 +1,7 @@
-#region Imports
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections;
-using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 
-using AddressBook;
-using AudioUnit;
-using AVFoundation;
-using CoreAnimation;
-using CoreFoundation;
-using CoreGraphics;
-using CoreImage;
-using CoreMedia;
-using CoreText;
-using EventKit;
-using ExternalAccessory;
 using Foundation;
-using JavaScriptCore;
-using MapKit;
-using MediaPlayer;
-using MessageUI;
-using ObjCRuntime;
-using OpenTK;
-using ReplayKit;
-using Social;
-using SpriteKit;
-using StoreKit;
-using SystemConfiguration;
 using UIKit;
-#endregion
 
 [Register ("AppDelegate")]
 public partial class AppDelegate : UIApplicationDelegate
@@ -53,6 +12,21 @@ public partial class AppDelegate : UIApplicationDelegate
 
 	public void TickOnce ()
 	{
+		Console.WriteLine (check ());
+	}
+
+	public bool check ()
+	{
+		bool valid = false;
+
+		double d1 = 1.0;
+		double d2 = 2.0;
+
+		Decimal ammount = new Decimal (d1);
+		Decimal avaliable = new Decimal (d2);
+
+		valid = ammount <= avaliable;
+		return valid;
 	}
 
 	void Tapped ()
@@ -64,13 +38,12 @@ public partial class AppDelegate : UIApplicationDelegate
 	{
 		window = new UIWindow (UIScreen.MainScreen.Bounds);
 
-		NSTimer.CreateScheduledTimer (0.1, (v) => TickOnce ());
+		NSTimer.CreateScheduledTimer (0.1, (v) => Tapped ());
 
 		dvc = new UIViewController ();
 		dvc.View.BackgroundColor = UIColor.White;
 		button = new UIButton (window.Bounds);
-		button.TouchDown += (object sender, EventArgs e) => 
-		{
+		button.TouchDown += (object sender, EventArgs e) => {
 			Tapped ();
 		};
 		button.SetTitleColor (UIColor.Blue, UIControlState.Normal);
@@ -84,7 +57,7 @@ public partial class AppDelegate : UIApplicationDelegate
 		return true;
 	}
 
-	static void Main (string[] args)
+	static void Main (string [] args)
 	{
 		UIApplication.Main (args, null, "AppDelegate");
 	}

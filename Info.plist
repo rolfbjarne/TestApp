@@ -24,12 +24,14 @@
 		<integer>2</integer>
 	</array>
 	<key>CFBundleDisplayName</key>
-	<string>Unified TA</string>
-	<key>MinimumOSVersion</key>
-	<string>7.0</string>
+	<string>Main</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Hello world</string>
+	<key>MinimumOSVersion</key>
+	<string>10.0</string>
 </dict>
 </plist>
