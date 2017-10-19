@@ -5,17 +5,13 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.xamarin.unifiedtestapp</string>
+	<string>com.xamarin.helloworld</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>Main</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>2.5</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIDeviceFamily</key>
@@ -24,12 +20,12 @@
 		<integer>2</integer>
 	</array>
 	<key>CFBundleDisplayName</key>
-	<string>Unified TA</string>
+	<string>Hello World</string>
 	<key>MinimumOSVersion</key>
-	<string>7.0</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-	</array>
+	<string>8.0</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>CFBundleName</key>
+	<string>HelloWorld</string>
 </dict>
 </plist>
