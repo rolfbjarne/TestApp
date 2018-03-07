@@ -24,8 +24,8 @@
     <MtouchArch>x86_64</MtouchArch>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <MtouchProfiling>true</MtouchProfiling>
-    <MtouchExtraArgs></MtouchExtraArgs>
-    <MtouchLink>None</MtouchLink>
+    <MtouchExtraArgs>--registrar:static --optimize:all</MtouchExtraArgs>
+    <MtouchLink>Full</MtouchLink>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <CodesignKey>iPhone Developer</CodesignKey>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
@@ -70,8 +70,7 @@
     <MtouchArch>ARM64</MtouchArch>
     <DebugSymbols>true</DebugSymbols>
     <MtouchExtraArgs></MtouchExtraArgs>
-    <MtouchNoSymbolStrip>false</MtouchNoSymbolStrip>
-    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchLink>Full</MtouchLink>
   </PropertyGroup>
   <ItemGroup>

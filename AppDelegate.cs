@@ -1,5 +1,8 @@
+using System;
+
 using Foundation;
 using UIKit;
+using ObjCRuntime;
 
 public class AppDelegate : UIApplicationDelegate
 {
@@ -10,6 +13,7 @@ public class AppDelegate : UIApplicationDelegate
 	{
 		window = new UIWindow (UIScreen.MainScreen.Bounds);
 		window.RootViewController = dvc = new UIViewController ();
+		dvc.View.BackgroundColor = UIColor.White;
 		window.MakeKeyAndVisible ();
 
 		return true;
