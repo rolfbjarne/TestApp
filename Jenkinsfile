@@ -42,7 +42,7 @@ def abortExecutingBuilds ()
     }
 }
 
-node ('') {
+node ('xamarin-macios') {
     // This runs into problems with the Jenkins sandbox:
     stage ("Checking for previous builds") {
         abortExecutingBuilds ()
