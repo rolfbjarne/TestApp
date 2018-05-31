@@ -44,6 +44,7 @@ def abortExecutingBuilds ()
 
 node ('xamarin-macios') {
     // This runs into problems with the Jenkins sandbox:
+    manager.createSummary ("warning.gif").appendText ("Hello world!")
     stage ("Checking for previous builds") {
         abortExecutingBuilds ()
     }
