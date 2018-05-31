@@ -27,11 +27,12 @@ def abortExecutingBuilds ()
     for (build in job.builds) {
         if (!build.isBuilding ())
             continue
-
+        echo ("build: ${build.getClass ()}")
         if (build.number > currentBuild.number) {
             error ("There is already a newer build in progress (#${build.number})")
         } else if (build.number < currentBuild.number) {
             def exec = build.getExecutor ()
+            echo ("build: ${exec.getClass ()}")
             if (exec == null) {
                 echo ("No executor for build ${build.number}")
             } else {
