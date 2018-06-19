@@ -53,7 +53,7 @@ node ('xamarin-macios') {
         try {
             sh ("sleep 60")
         } catch (e) {
-            sh ("Bad stuff: ${e}")
+            echo ("Bad stuff: ${e}")
         }
     }
 } // node
