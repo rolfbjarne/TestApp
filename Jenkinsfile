@@ -50,6 +50,10 @@ node ('xamarin-macios') {
         abortExecutingBuilds ()
     }
     stage ("Build") {
-        sh ("sleep 120")
+        try {
+            sh ("sleep 120")
+        } catch (error) {
+            sh ("error: ${error}")
+        }
     }
 } // node
