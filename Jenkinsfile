@@ -51,7 +51,7 @@ node ('xamarin-macios') {
     }
     stage ("Build") {
         try {
-            sh ("sleep 120")
+            sh ("sleep 60")
         } catch (error) {
             sh ("error: ${error}")
         }
