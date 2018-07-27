@@ -2,6 +2,7 @@
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.groovy.JsonSlurper;
 
 // global variables
 repository = "rolfbjarne/TestApp"
@@ -49,6 +50,12 @@ def reportFinalStatusToSlack (err, gitHash, currentStage, fileContents)
         text = "\"text\": ${groovy.json.JsonOutput.toJson (fileContents)},"
     def attachments = """42"""
     echo (attachments)
+
+JsonSlurper jsonSlurper = new JsonSlurper();
+                JSON json = null;
+                    json = jsonSlurper.parseText(attachments);
+                echo (json)
+
     slackSend (channel: "@rolf", color: "danger", message: "Test message", attachments: attachments.toString())
 }
 
