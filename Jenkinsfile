@@ -1,7 +1,7 @@
 #!/bin/groovy
 
 // global variables
-repository = "xamarin/xamarin-macios"
+repository = "rolfbjarne/TestApp"
 isPr = false
 branchName = null
 gitHash = null
@@ -17,43 +17,52 @@ xiPackageFilename = null
 xmPackageFilename = null
 reportPrefix = null
 
-def abortExecutingBuilds ()
+def reportFinalStatusToSlack (err, gitHash, currentStage, fileContents)
 {
-    // This runs into problems with the Jenkins sandbox:
-    //      org.jenkinsci.plugins.scriptsecurity.sandbox.RejectedAccessException: Scripts not permitted to use method jenkins.model.Jenkins getItemByFullName java.lang.String
-    // so disable for now.
+    def status = currentBuild.currentResult
+    // if ("${status}" == "SUCCESS" && err == "")
+    //     return // not reporting success to slack
 
-    def job = Jenkins.instance.getItemByFullName (env.JOB_NAME)
-    for (build in job.builds) {
-        if (!build.isBuilding ())
-            continue
-        echo ("build: ${build.getClass ()}")
-        if (build.number > currentBuild.number) {
-            error ("There is already a newer build in progress (#${build.number})")
-        } else if (build.number < currentBuild.number) {
-            def exec = build.getExecutor ()
-            echo ("build: ${exec.getClass ()}")
-            if (exec == null) {
-                echo ("No executor for build ${build.number}")
-            } else {
-                exec.interrupt (Result.ABORTED, new CauseOfInterruption.UserInterruption ("Aborted by build #${currentBuild.number}"))
-                echo ("Aborted previous build: #${build.number}")
-            }
-        }
+    def authorName = null
+    def authorEmail = null
+    if (isPr) {
+        authorName = env.CHANGE_AUTHOR_DISPLAY_NAME
+        authorEmail = env.CHANGE_AUTHOR_EMAIL
+        slackMessage = "Pull Request #<${env.CHANGE_URL}|${env.CHANGE_ID}> failed to build."
+    } else {
+        authorName = sh (script: "git log -1 --pretty=%an", returnStdout: true).trim ()
+        authorEmail = sh (script: "git log -1 --pretty=%ae", returnStdout: true).trim ()
+        slackMessage = "Commit <https://github.com/${repository}/commit/${gitHash}|${gitHash}> failed to build."
     }
+
+    def title = null
+    if (err != null) {
+        title = "Internal jenkins failed in stage '${currentStage}': ${err}"
+    } else {
+        title = "Internal jenkins failed in stage '${currentStage}'"
+    }
+    def text = ""
+    if (fileContents != null)
+        text = "\"text\": ${groovy.json.JsonOutput.toJson (fileContents)},"
+    def attachments = """
+    [
+        {
+            \"author_name\": \"${authorName} (${authorEmail})\",
+            \"title\": \"${title}\",
+            \"title_link\": \"${env.RUN_DISPLAY_URL}\",
+            \"color\": \"danger\",
+            ${text}
+            \"fallback\": \"Build failed\"
+        }
+    ]
+    """
+    echo (attachments)
+    slackSend (botUser: true, channel: "#ios-notifications", color: "danger", message: slackMessage, attachment: attachments)
 }
 
+
 node ('xamarin-macios') {
-    // This runs into problems with the Jenkins sandbox:
-    manager.createSummary ("warning.gif").appendText ("Hello world!")
-    stage ("Checking for previous builds") {
-        abortExecutingBuilds ()
-    }
     stage ("Build") {
-        try {
-            sh ("sleep 60")
-        } catch (e) {
-            echo ("Bad stuff: ${e}")
-        }
+        reportFinalStatusToSlack ("some error", "abcdef-hash-abcdef", "Build", "Error details")
     }
 } // node
