@@ -48,11 +48,9 @@ def reportFinalStatusToSlack (err, gitHash, currentStage, fileContents)
     if (fileContents != null)
         text = "\"text\": ${groovy.json.JsonOutput.toJson (fileContents)},"
     def attachments = """
-    \"attachments\": [
         {
             \"text\": \"attached\"
         }
-    ]
     """
     echo (attachments)
     slackSend (channel: "@rolf", color: "danger", message: "Test message", attachments: attachments)
