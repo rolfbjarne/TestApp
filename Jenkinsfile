@@ -1,5 +1,7 @@
 #!/bin/groovy
 
+import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException
+
 // global variables
 repository = "xamarin/xamarin-macios"
 isPr = false
@@ -52,6 +54,13 @@ node ('xamarin-macios') {
     stage ("Build") {
         try {
             sh ("sleep 60")
+        } catch (FlowInterruptedException interruptEx) {
+            echo ("Aborted?")
+            echo ("Result: ${interruptEx.getResult ()}")
+            def causes = interruptEx.getCauses ()
+            echo ("${causes.size ()} causes")
+            for (def i = 0; i < causes.size (); i++)
+                echo ("${i + 1}: ${causes [i]}")
         } catch (e) {
             echo ("Bad stuff: ${e}")
         }
