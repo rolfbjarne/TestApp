@@ -44,6 +44,7 @@ def reportFinalStatusToSlack (err, gitHash, currentStage, fileContents)
     def text = ""
     if (fileContents != null)
         text = "\"text\": ${groovy.json.JsonOutput.toJson (fileContents)},"
+        JSONArray jattachments = new JSONArray();
     def attachments = """
     [
         {
