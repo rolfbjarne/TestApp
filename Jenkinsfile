@@ -56,7 +56,7 @@ node ('xamarin-macios') {
             sh ("sleep 60")
         } catch (FlowInterruptedException interruptEx) {
             echo ("Aborted?")
-            echo ("Result: ${interruptEx.getResult ()}")
+            // echo ("Result: ${interruptEx.getResult ()}")
             def causes = interruptEx.getCauses ()
             echo ("${causes.size ()} causes")
             for (def i = 0; i < causes.size (); i++)
