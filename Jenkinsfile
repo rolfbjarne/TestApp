@@ -1,5 +1,8 @@
 #!/bin/groovy
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 // global variables
 repository = "rolfbjarne/TestApp"
 isPr = false
