@@ -7,8 +7,7 @@ node ('xamarin-macios') {
         def authorEmail = env.CHANGE_AUTHOR_EMAIL
         def slackMessage = "Pull Request #<${env.CHANGE_URL}|${env.CHANGE_ID}> failed to build."
         def title = "Internal jenkins failed in stage '${currentStage}'"
-        def attachments = """
-        [
+        def attachments = """[
             {
                 \"author_name\": \"${authorName} (${authorEmail})\",
                 \"title\": \"${title}\",
