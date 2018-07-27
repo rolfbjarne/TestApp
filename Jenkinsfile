@@ -50,12 +50,7 @@ def reportFinalStatusToSlack (err, gitHash, currentStage, fileContents)
     def attachments = """
     [
         {
-            \"author_name\": \"${authorName} (${authorEmail})\",
-            \"title\": \"${title}\",
-            \"title_link\": \"${env.RUN_DISPLAY_URL}\",
-            \"color\": \"danger\",
-            ${text}
-            \"fallback\": \"Build failed\"
+            \"text\": \"attached\"
         }
     ]
     """
