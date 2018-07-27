@@ -52,7 +52,7 @@ def reportFinalStatusToSlack (err, gitHash, currentStage, fileContents)
     echo (attachments)
 
 JsonSlurper jsonSlurper = new JsonSlurper();
-                JSON json = null;
+                def json = null;
                     json = jsonSlurper.parseText(attachments);
                 echo (json)
 
