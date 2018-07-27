@@ -55,7 +55,7 @@ def reportFinalStatusToSlack (err, gitHash, currentStage, fileContents)
     ]
     """
     echo (attachments)
-    slackSend (channel: "@rolf", color: "danger", message: "Test message", attachment: attachments)
+    slackSend (channel: "@rolf", color: "danger", message: "Test message", attachments: attachments)
 }
 
 
