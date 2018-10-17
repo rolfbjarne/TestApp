@@ -24,11 +24,12 @@
     <MtouchArch>x86_64</MtouchArch>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <MtouchProfiling>true</MtouchProfiling>
-    <MtouchExtraArgs>--registrar:static --optimize:all</MtouchExtraArgs>
+    <MtouchExtraArgs>--gcc_flags -Wl,libtestcode.o</MtouchExtraArgs>
     <MtouchLink>Full</MtouchLink>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <CodesignKey>iPhone Developer</CodesignKey>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -41,6 +42,7 @@
     <MtouchDebug>true</MtouchDebug>
     <MtouchExtraArgs></MtouchExtraArgs>
     <MtouchArch>x86_64</MtouchArch>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>True</DebugSymbols>
@@ -54,11 +56,12 @@
     <MtouchDebug>True</MtouchDebug>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <MtouchArch>ARM64</MtouchArch>
-    <MtouchExtraArgs></MtouchExtraArgs>
+    <MtouchExtraArgs>--gcc_flags -Wl,libtestcode.o</MtouchExtraArgs>
     <MtouchProfiling>true</MtouchProfiling>
     <MtouchLink>Full</MtouchLink>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <Optimize>False</Optimize>
@@ -69,13 +72,16 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <MtouchArch>ARM64</MtouchArch>
     <DebugSymbols>true</DebugSymbols>
-    <MtouchExtraArgs></MtouchExtraArgs>
+    <MtouchExtraArgs>--gcc_flags -Wl,libtestcode.o</MtouchExtraArgs>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchLink>Full</MtouchLink>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Xamarin.iOS" />
     <Reference Include="System.Core" />
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
