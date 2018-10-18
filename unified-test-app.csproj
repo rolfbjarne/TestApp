@@ -24,8 +24,8 @@
     <MtouchArch>x86_64</MtouchArch>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <MtouchProfiling>true</MtouchProfiling>
-    <MtouchExtraArgs>--gcc_flags -Wl,libtestcode.o</MtouchExtraArgs>
-    <MtouchLink>Full</MtouchLink>
+    <MtouchExtraArgs>--gcc_flags -Wl,libtestcode.o --registrar:static</MtouchExtraArgs>
+    <MtouchLink>None</MtouchLink>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <CodesignKey>iPhone Developer</CodesignKey>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
@@ -63,9 +63,9 @@
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseLink|iPhone' ">
     <Optimize>False</Optimize>
-    <OutputPath>bin\iPhone\Release</OutputPath>
+    <OutputPath>bin\iPhone\$(Configuration)</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
@@ -75,6 +75,21 @@
     <MtouchExtraArgs>--gcc_flags -Wl,libtestcode.o</MtouchExtraArgs>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchLink>Full</MtouchLink>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseDontLink|iPhone' ">
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhone\$(Configuration)</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <MtouchArch>ARM64</MtouchArch>
+    <DebugSymbols>true</DebugSymbols>
+    <MtouchExtraArgs>--gcc_flags -Wl,libtestcode.o</MtouchExtraArgs>
+    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <MtouchLink>None</MtouchLink>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchUseLlvm>true</MtouchUseLlvm>
   </PropertyGroup>

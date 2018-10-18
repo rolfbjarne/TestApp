@@ -34,8 +34,13 @@ public class AppDelegate : UIApplicationDelegate
 			freeArguments (array, counter);
 		}
 		GC.Collect ();
+		if (iterations == 100)
+			_exit (0);
 		NSTimer.CreateScheduledTimer (0.1, (v) => Run ());
 	}
+
+	[DllImport ("libc")]
+	extern static void _exit (int code);
 
 	public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 	{

@@ -21,3 +21,19 @@ libtestcode.dev.o: testcode.m Makefile
 
 libtestcode.sim.o: testcode.m Makefile
 	clang -arch x86_64 -c $< -o$@ -miphoneos-version-min=6.0 -isysroot /Applications/Xcode10.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk
+
+link:
+	$(MAKE) run-ReleaseLink
+
+dontlink:
+	$(MAKE) run-ReleaseDontLink
+
+both:
+	$(MAKE) link
+	$(MAKE) dontlink
+	say completed both tests
+
+run-%:
+	time msbuild /p:Platform=iPhone /p:Configuration=$* *.csproj /verbosity:quiet /nologo
+	mlaunch --devname 0eb763db8f15beb639d2b4461c3f7d6b9d8555b0 --installdev $(PWD)/bin/iPhone/$*/helloworld.app -qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+	mlaunch --devname 0eb763db8f15beb639d2b4461c3f7d6b9d8555b0 --launchdev $(PWD)/bin/iPhone/$*/helloworld.app -qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq --wait-for-exit
