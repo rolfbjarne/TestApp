@@ -33,7 +33,10 @@ both:
 	$(MAKE) dontlink
 	say completed both tests
 
-run-%:
+DEVICE?=0eb763db8f15beb639d2b4461c3f7d6b9d8555b0
+
+run-%: libtestcode.o
 	time msbuild /p:Platform=iPhone /p:Configuration=$* *.csproj /verbosity:quiet /nologo
-	mlaunch --devname 0eb763db8f15beb639d2b4461c3f7d6b9d8555b0 --installdev $(PWD)/bin/iPhone/$*/helloworld.app -qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-	mlaunch --devname 0eb763db8f15beb639d2b4461c3f7d6b9d8555b0 --launchdev $(PWD)/bin/iPhone/$*/helloworld.app -qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq --wait-for-exit
+	mlaunch --wait-for-unlock --devname $(DEVICE) --installdev $(PWD)/bin/iPhone/$*/helloworld.app -qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+	say launching
+	mlaunch --wait-for-unlock --devname $(DEVICE) --launchdev $(PWD)/bin/iPhone/$*/helloworld.app -qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq --wait-for-exit
