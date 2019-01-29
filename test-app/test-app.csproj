@@ -56,8 +56,6 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Developer: Rolf Kvinge (CZ9YXM2X9A)</CodesignKey>
-    <IpaPackageName>
-    </IpaPackageName>
     <MtouchDebug>True</MtouchDebug>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <MtouchArch>ARMv7</MtouchArch>
@@ -83,8 +81,6 @@
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <MtouchExtraArgs>-gcc_flags -v -vvvv</MtouchExtraArgs>
     <BuildIpa>true</BuildIpa>
-    <IpaPackageName>
-    </IpaPackageName>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <UseFakeWatchOS4_3Sdk>False</UseFakeWatchOS4_3Sdk>
   </PropertyGroup>

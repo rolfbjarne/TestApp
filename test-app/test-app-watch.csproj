@@ -67,7 +67,6 @@
     <DebugSymbols>true</DebugSymbols>
     <MtouchEnableGenericValueTypeSharing>false</MtouchEnableGenericValueTypeSharing>
     <MtouchExtraArgs>-gcc_flags -v -vvvv</MtouchExtraArgs>
-    <BuildIpa>true</BuildIpa>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <UseFakeWatchOS4_3Sdk>False</UseFakeWatchOS4_3Sdk>
   </PropertyGroup>
