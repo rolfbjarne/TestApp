@@ -9,6 +9,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
@@ -51,8 +52,136 @@ public partial class AppDelegate : UIApplicationDelegate
 	UIViewController dvc;
 	UIButton button;
 
+
+	struct StructWithManyMembers {
+		public byte a;
+		public sbyte b;
+		public short c;
+		public ushort d;
+		public int e;
+		public uint f;
+		public long g;
+		public ulong h;
+		public float i;
+		public double j;
+		public decimal k;
+	}
+
+	public void MakeGenericType ()
+	{
+		var t = typeof (List<>).MakeGenericType (typeof (StructWithManyMembers));
+		var obj = Activator.CreateInstance (t);
+		Console.WriteLine (obj);
+	}
+
+	public void PropertySetInfoOnNullable ()
+	{
+		Nullable<bool> value = true;
+		typeof (bool?).GetField ("value", BindingFlags.NonPublic | BindingFlags.Instance).SetValue (value, true);
+	}
+
+	public void ValueTypeAsDictionaryKey ()
+	{
+		var dic = new Dictionary<StructWithManyMembers, StructWithManyMembers> ();
+		Console.WriteLine (dic.Comparer);
+		dic [default (StructWithManyMembers)] = default (StructWithManyMembers);
+		dic [default (StructWithManyMembers)] = default (StructWithManyMembers);
+		dic [default (StructWithManyMembers)] = default (StructWithManyMembers);
+		Console.WriteLine (dic);
+	}
+
+	static DispatchQueue queue;
+	static bool static_with_attribute_called_back;
+	[MonoPInvokeCallback (typeof (dispatch_callback_t))]
+	static void StaticCallbackWithPInvokeCallbackAttribute (IntPtr context)
+	{
+		static_with_attribute_called_back = true;
+	}
+	public void DelegateToNativeFunction ()
+	{
+		static_with_attribute_called_back = false;
+		dispatch_sync_t del = Marshal.GetDelegateForFunctionPointer<dispatch_sync_t> (Dlfcn.dlsym (Dlfcn.RTLD.Default, "dispatch_sync_f"));
+		del (queue.Handle, IntPtr.Zero, StaticCallbackWithPInvokeCallbackAttribute);
+		if (!static_with_attribute_called_back)
+			throw new Exception ("Not called back!");
+	}
+
+	internal delegate void dispatch_callback_t (IntPtr context);
+
+	internal delegate void dispatch_sync_t (IntPtr queue, IntPtr context, dispatch_callback_t dispatch);
+
+	[DllImport (Constants.libcLibrary)]
+	extern static void dispatch_sync_f (IntPtr queue, IntPtr context, dispatch_callback_t dispatch);
+
+	static bool static_called_back;
+	static void StaticCallback (IntPtr context)
+	{
+		static_called_back = true;
+	}
+
+	public void ReverseCallbackToStaticFunction ()
+	{
+		static_called_back = false;
+		dispatch_sync_f (queue.Handle, IntPtr.Zero, StaticCallback);
+		if (!static_called_back)
+			throw new Exception ("Not called back!");
+	}
+
+	bool instance_called_back;
+	void InstanceCallback (IntPtr context)
+	{
+		instance_called_back = true;
+	}
+
+	public void ReverseCallbackToInstanceFunction ()
+	{
+		instance_called_back = false;
+		dispatch_sync_f (queue.Handle, IntPtr.Zero, InstanceCallback);
+		if (!instance_called_back)
+			throw new Exception ("Not called back!");
+	}
+
+	public void ReverseCallbackToAnonymousFunction ()
+	{
+		var called_back = false;
+		dispatch_sync_f (queue.Handle, IntPtr.Zero, (ptr) => called_back = true);
+		if (!called_back)
+			throw new Exception ("Not called back!");
+	}
+
+	public void SystemReflectionEmit ()
+	{
+
+		var mod = AssemblyBuilder.DefineDynamicAssembly (new AssemblyName ("dda"), AssemblyBuilderAccess.Run);
+		Console.WriteLine (mod);
+	}
+
 	public void TickOnce ()
 	{
+		var methods = new string [] {
+			nameof (MakeGenericType),
+			nameof (PropertySetInfoOnNullable),
+			nameof (ValueTypeAsDictionaryKey),
+			nameof (DelegateToNativeFunction),
+			nameof (ReverseCallbackToStaticFunction),
+			nameof (ReverseCallbackToInstanceFunction),
+			nameof (ReverseCallbackToAnonymousFunction),
+			nameof (SystemReflectionEmit),
+		};
+
+		queue = new DispatchQueue ("Queue!");
+		foreach (string m in methods) {
+			var mi = GetType ().GetMethod (m);
+			try {
+				Console.WriteLine (m);
+				mi.Invoke (this, new object [] { });
+				Console.WriteLine ($"✅ {m} PASS");
+			} catch (Exception ex) {
+				var tie = ex as TargetInvocationException;
+				ex = tie.InnerException;
+				Console.WriteLine ($"❌ {m} Exception: {ex.Message}");
+			}
+		}
 	}
 
 	void Tapped ()
