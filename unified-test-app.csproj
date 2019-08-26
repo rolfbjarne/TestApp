@@ -26,9 +26,12 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchProfiling>true</MtouchProfiling>
-    <MtouchExtraArgs>-vvvv -time -time</MtouchExtraArgs>
     <MtouchLink>None</MtouchLink>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <DeviceSpecificBuild>false</DeviceSpecificBuild>
+    <MtouchExtraArgs>--mono:framework</MtouchExtraArgs>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -41,7 +44,7 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <MtouchDebug>true</MtouchDebug>
     <MtouchExtraArgs>-v -v -v</MtouchExtraArgs>
-    <MtouchArch>i386</MtouchArch>
+    <MtouchArch>x86_64</MtouchArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>True</DebugSymbols>
@@ -57,12 +60,12 @@
     </IpaPackageName>
     <MtouchDebug>True</MtouchDebug>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <MtouchArch>ARMv7, ARM64</MtouchArch>
-    <MtouchExtraArgs>-vvvv</MtouchExtraArgs>
+    <MtouchArch>ARM64</MtouchArch>
     <MtouchProfiling>true</MtouchProfiling>
     <MtouchLink>Full</MtouchLink>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <Optimize>False</Optimize>
@@ -72,18 +75,23 @@
     <ConsolePause>False</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <MtouchArch>ARMv7, ARM64</MtouchArch>
+    <MtouchArch>ARM64</MtouchArch>
     <DebugSymbols>true</DebugSymbols>
     <MtouchEnableGenericValueTypeSharing>false</MtouchEnableGenericValueTypeSharing>
-    <MtouchExtraArgs>-gcc_flags -v -vvvv</MtouchExtraArgs>
+    <MtouchExtraArgs>-vvvv</MtouchExtraArgs>
     <BuildIpa>true</BuildIpa>
     <IpaPackageName>
     </IpaPackageName>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Xamarin.iOS" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

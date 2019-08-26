@@ -47,6 +47,9 @@ class Messaging {
 	[DllImport (LIBOBJC_DYLIB, EntryPoint="objc_msgSend")]
 	public extern static void void_objc_msgSend (IntPtr r, IntPtr s);
 
+	[DllImport (LIBOBJC_DYLIB, EntryPoint = "objc_msgSend")]
+	public extern static void void_objc_msgSend_IntPtr (IntPtr r, IntPtr s, IntPtr p1);
+
 	[DllImport (LIBOBJC_DYLIB, EntryPoint="objc_msgSend")]
 	public extern static void void_objc_msgSend_IntPtr_ref_BlockLiteral (IntPtr receiver, IntPtr selector, IntPtr p1, ref BlockLiteral p2);
 
