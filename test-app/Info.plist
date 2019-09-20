@@ -27,5 +27,7 @@
 	<string>Unified TA</string>
 	<key>MinimumOSVersion</key>
 	<string>7.0</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo Library Usage Description</string>
 </dict>
 </plist>
