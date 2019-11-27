@@ -65,9 +65,10 @@
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <MtouchArch>ARM64</MtouchArch>
+    <MtouchArch>ARMv7s</MtouchArch>
     <DebugSymbols>true</DebugSymbols>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Xamarin.iOS" />
