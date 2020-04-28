@@ -50,6 +50,10 @@ public partial class AppDelegate : UIApplicationDelegate
 	UIViewController dvc;
 	UIButton button;
 
+	[Export ("f:")]
+	public void F (DateTime t)
+	{ }
+
 	public void TickOnce ()
 	{
 	}
