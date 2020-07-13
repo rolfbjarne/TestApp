@@ -50,20 +50,57 @@ public partial class AppDelegate : UIApplicationDelegate
 	UIViewController dvc;
 	UIButton button;
 
-	public void TickOnce ()
+	[DllImport ("__Internal")]
+	extern static string xamarin_timezone_get_local_name ();
+
+	[DllImport ("__Internal")]
+	extern static IntPtr mono_pmip (IntPtr value);
+
+	[DllImport (Constants.libcLibrary)]
+	internal static extern int dladdr (IntPtr addr, out Dl_info info);
+
+	internal struct Dl_info {
+		internal IntPtr dli_fname; /* Pathname of shared object */
+		internal IntPtr dli_fbase; /* Base address of shared object */
+		internal IntPtr dli_sname; /* Name of nearest symbol */
+		internal IntPtr dli_saddr; /* Address of nearest symbol */
+	}
+
+	public void DoIt ()
 	{
+		Console.WriteLine ("DoIt!");
+		const string name = "xamarin_timezone_get_local_name";
+		Console.WriteLine ($"{name} returns: {xamarin_timezone_get_local_name ()}");
+		LocateSymbol (name);
+
+		const string name2 = "mono_pmip";
+		Console.WriteLine ($"{name2} (IntPtr.Zero) returns: 0x{mono_pmip (IntPtr.Zero).ToString ("x")}");
+		LocateSymbol ("mono_pmip");
+	}
+
+	void LocateSymbol (string name)
+	{
+		var symbol = ObjCRuntime.Dlfcn.dlsym (Dlfcn.RTLD.Default, name);
+		Console.WriteLine ($"{name}: 0x{symbol.ToString ("x")}");
+		var rv = dladdr (symbol, out var info);
+		if (rv != 0) {
+			Console.WriteLine ($"{name} was loaded from {Marshal.PtrToStringAuto (info.dli_fname)}");
+		} else {
+			Console.WriteLine ($"{name} was loaded from an unknown location (exit code {rv})");
+		}
 	}
 
 	void Tapped ()
 	{
-		TickOnce ();
+		dladdr (IntPtr.Zero, out var x);
+		DoIt ();
 	}
 
 	public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 	{
 		window = new UIWindow (UIScreen.MainScreen.Bounds);
 
-		NSTimer.CreateScheduledTimer (0.1, (v) => TickOnce ());
+		NSTimer.CreateScheduledTimer (0.1, (v) => DoIt ());
 
 		dvc = new UIViewController ();
 		dvc.View.BackgroundColor = UIColor.White;
@@ -85,6 +122,9 @@ public partial class AppDelegate : UIApplicationDelegate
 
 	static void Main (string[] args)
 	{
+			Console.Write ("A");
+			Console.Write ("B");
+			Console.WriteLine ("C");
 		UIApplication.Main (args, null, "AppDelegate");
 	}
 }
