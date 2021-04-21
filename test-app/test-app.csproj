@@ -21,13 +21,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchDebug>True</MtouchDebug>
-    <MtouchArch>i386, x86_64</MtouchArch>
+    <MtouchArch>x86_64</MtouchArch>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchProfiling>true</MtouchProfiling>
-    <MtouchExtraArgs>--nofastsim</MtouchExtraArgs>
-    <MtouchLink>None</MtouchLink>
+    <MtouchExtraArgs>--registrar:static</MtouchExtraArgs>
+    <MtouchLink>SdkOnly</MtouchLink>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <CodesignProvision>WildCardiOSDevelopment</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -49,15 +50,14 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Development: Rolf Kvinge (CZ9YXM2X9A)</CodesignKey>
     <MtouchDebug>True</MtouchDebug>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <MtouchArch>ARM64</MtouchArch>
     <MtouchProfiling>true</MtouchProfiling>
-    <MtouchLink>Full</MtouchLink>
+    <MtouchLink>SdkOnly</MtouchLink>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
-    <MtouchFastDev>true</MtouchFastDev>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <Optimize>False</Optimize>
@@ -69,9 +69,11 @@
     <MtouchArch>ARM64</MtouchArch>
     <DebugSymbols>true</DebugSymbols>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />

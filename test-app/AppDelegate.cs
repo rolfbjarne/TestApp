@@ -50,57 +50,109 @@ public partial class AppDelegate : UIApplicationDelegate
 	UIViewController dvc;
 	UIButton button;
 
-	[DllImport ("__Internal")]
-	extern static string xamarin_timezone_get_local_name ();
-
-	[DllImport ("__Internal")]
-	extern static IntPtr mono_pmip (IntPtr value);
-
-	[DllImport (Constants.libcLibrary)]
-	internal static extern int dladdr (IntPtr addr, out Dl_info info);
-
-	internal struct Dl_info {
-		internal IntPtr dli_fname; /* Pathname of shared object */
-		internal IntPtr dli_fbase; /* Base address of shared object */
-		internal IntPtr dli_sname; /* Name of nearest symbol */
-		internal IntPtr dli_saddr; /* Address of nearest symbol */
-	}
-
-	public void DoIt ()
-	{
-		Console.WriteLine ("DoIt!");
-		const string name = "xamarin_timezone_get_local_name";
-		Console.WriteLine ($"{name} returns: {xamarin_timezone_get_local_name ()}");
-		LocateSymbol (name);
-
-		const string name2 = "mono_pmip";
-		Console.WriteLine ($"{name2} (IntPtr.Zero) returns: 0x{mono_pmip (IntPtr.Zero).ToString ("x")}");
-		LocateSymbol ("mono_pmip");
-	}
-
-	void LocateSymbol (string name)
-	{
-		var symbol = ObjCRuntime.Dlfcn.dlsym (Dlfcn.RTLD.Default, name);
-		Console.WriteLine ($"{name}: 0x{symbol.ToString ("x")}");
-		var rv = dladdr (symbol, out var info);
-		if (rv != 0) {
-			Console.WriteLine ($"{name} was loaded from {Marshal.PtrToStringAuto (info.dli_fname)}");
-		} else {
-			Console.WriteLine ($"{name} was loaded from an unknown location (exit code {rv})");
-		}
-	}
-
 	void Tapped ()
 	{
-		dladdr (IntPtr.Zero, out var x);
-		DoIt ();
+		Console.WriteLine (Constants.Version);
+		T1 ();
+		T2 ();
+		T3 ();
+		T4 ();
+		T5 ();
+	}
+
+	void T1 ()
+	{
+		GC.Collect ();
+		GC.Collect ();
+		var iterations = 100000;
+		var items = new NSObject [iterations];
+		var watch = Stopwatch.StartNew ();
+		for (var i = 0; i < iterations; i++) {
+			items [i] = new NSObject ();
+		}
+		watch.Stop ();
+		Console.WriteLine ($"{MethodBase.GetCurrentMethod ().Name}: {iterations} iterations in {watch.ElapsedMilliseconds,4} ms = {watch.ElapsedTicks / (double) iterations,10} ticks per iteration");
+		for (var i = 0; i < iterations; i++)
+			items [i].Dispose ();
+	}
+
+	void T2 ()
+	{
+		GC.Collect ();
+		GC.Collect ();
+		var iterations = 100000;
+		var items = new NSObject [iterations];
+		var watch = Stopwatch.StartNew ();
+		for (var i = 0; i < iterations; i++) {
+			items [i] = new CustomObject ();
+		}
+		watch.Stop ();
+		Console.WriteLine ($"{MethodBase.GetCurrentMethod ().Name}: {iterations} iterations in {watch.ElapsedMilliseconds,4} ms = {watch.ElapsedTicks / (double) iterations,10} ticks per iteration");
+		for (var i = 0; i < iterations; i++)
+			items [i].Dispose ();
+	}
+
+	void T3 ()
+	{
+		GC.Collect ();
+		GC.Collect ();
+		var iterations = 100000;
+		var items = new NSObject [iterations];
+		var classHandle = Class.GetHandle (typeof (NSObject));
+		var watch = Stopwatch.StartNew ();
+		for (var i = 0; i < iterations; i++) {
+			var obj = Messaging.IntPtr_objc_msgSend (Messaging.IntPtr_objc_msgSend (classHandle, Selector.GetHandle ("alloc")), Selector.GetHandle ("init"));
+			items [i] = Runtime.GetNSObject (obj);
+			Messaging.void_objc_msgSend (obj, Selector.GetHandle ("release"));
+		}
+		watch.Stop ();
+		Console.WriteLine ($"{MethodBase.GetCurrentMethod ().Name}: {iterations} iterations in {watch.ElapsedMilliseconds,4} ms = {watch.ElapsedTicks / (double) iterations,10} ticks per iteration");
+		for (var i = 0; i < iterations; i++)
+			items [i].Dispose ();
+	}
+
+	void T4 ()
+	{
+		GC.Collect ();
+		GC.Collect ();
+		var iterations = 100000;
+		var items = new NSObject [iterations];
+		var classHandle = Class.GetHandle (typeof (NSObject));
+		var watch = Stopwatch.StartNew ();
+		for (var i = 0; i < iterations; i++) {
+			var obj = Messaging.IntPtr_objc_msgSend (Messaging.IntPtr_objc_msgSend (classHandle, Selector.GetHandle ("alloc")), Selector.GetHandle ("init"));
+			Messaging.void_objc_msgSend (obj, Selector.GetHandle ("retain"));
+			items [i] = Runtime.GetNSObject (obj);
+			Messaging.void_objc_msgSend (obj, Selector.GetHandle ("release"));
+			Messaging.void_objc_msgSend (obj, Selector.GetHandle ("release"));
+		}
+		watch.Stop ();
+		Console.WriteLine ($"{MethodBase.GetCurrentMethod ().Name}: {iterations} iterations in {watch.ElapsedMilliseconds,4} ms = {watch.ElapsedTicks / (double) iterations,10} ticks per iteration");
+		for (var i = 0; i < iterations; i++)
+			items [i].Dispose ();
+	}
+
+	void T5 ()
+	{
+		GC.Collect ();
+		GC.Collect ();
+		var iterations = 100000;
+		var classHandle = Class.GetHandle (typeof (CustomObject));
+		var watch = Stopwatch.StartNew ();
+		for (var i = 0; i < iterations; i++) {
+			var obj = Messaging.IntPtr_objc_msgSend (Messaging.IntPtr_objc_msgSend (classHandle, Selector.GetHandle ("alloc")), Selector.GetHandle ("init"));
+			//GC.KeepAlive (Runtime.GetNSObject (obj));
+			Messaging.void_objc_msgSend (obj, Selector.GetHandle ("release"));
+		}
+		watch.Stop ();
+		Console.WriteLine ($"{MethodBase.GetCurrentMethod ().Name}: {iterations} iterations in {watch.ElapsedMilliseconds,4} ms = {watch.ElapsedTicks / (double) iterations,10} ticks per iteration");
 	}
 
 	public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 	{
 		window = new UIWindow (UIScreen.MainScreen.Bounds);
 
-		NSTimer.CreateScheduledTimer (0.1, (v) => DoIt ());
+		NSTimer.CreateScheduledTimer (0.1, (v) => Tapped ());
 
 		dvc = new UIViewController ();
 		dvc.View.BackgroundColor = UIColor.White;
@@ -111,20 +163,23 @@ public partial class AppDelegate : UIApplicationDelegate
 		};
 		button.SetTitleColor (UIColor.Blue, UIControlState.Normal);
 		button.SetTitleColor (UIColor.Gray, UIControlState.Highlighted);
-		button.SetTitle ("Click here", UIControlState.Normal);
+		button.SetTitle ("Click here!", UIControlState.Normal);
 		dvc.Add (button);
 
 		window.RootViewController = dvc;
 		window.MakeKeyAndVisible ();
+
+		// Launch ();
 
 		return true;
 	}
 
 	static void Main (string[] args)
 	{
-			Console.Write ("A");
-			Console.Write ("B");
-			Console.WriteLine ("C");
 		UIApplication.Main (args, null, "AppDelegate");
 	}
+}
+
+[Register ("CustomObject")]
+class CustomObject : NSObject {
 }
