@@ -2,6 +2,9 @@
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <ProjectGuid>{FF7B9A87-53B1-4431-99D1-77B37F23C13B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <OutputPath>bin\$(Configuration)</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="*.cs" />

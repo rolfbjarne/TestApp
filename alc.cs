@@ -32,8 +32,9 @@ namespace TestBlock {
 
 		static void PrintAttributeCount (Assembly asm, string message)
 		{
-			var reflectionAttribs = asm.GetType ("UserNotificationsUI.IUNNotificationContentExtension").GetMethod ("DidReceiveNotification").GetCustomAttributesData ();
-			Console.WriteLine ("{2} {1}: Attrib count: {0}", reflectionAttribs.Count, message, reflectionAttribs.Count == 4 ? "✅" : "❌");
+			var method = asm.GetType ("UserNotificationsUI.IUNNotificationContentExtension").GetMethod ("DidReceiveNotification");
+			var attribs = method.GetCustomAttributesData ();
+			Console.WriteLine ("{2} {1}: Attrib count: {0}", attribs.Count, message, attribs.Count == 4 ? "✅" : "❌");
 		}
 	}
 }
