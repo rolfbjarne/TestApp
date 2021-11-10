@@ -1,3 +1,3 @@
 all:
-	msbuild /r
-	mono bin/Debug/alc.exe
+	@msbuild /r /nologo /v:quiet
+	@mono bin/Debug/alc.exe
