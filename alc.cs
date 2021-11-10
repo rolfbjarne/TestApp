@@ -11,16 +11,18 @@ namespace TestBlock {
 	class MainClass {
 		static void Main (string [] args)
 		{
+			var dir = Path.Combine (Path.GetDirectoryName (Path.GetDirectoryName (Path.GetDirectoryName (Assembly.GetExecutingAssembly ().Location))), "asm");
+			Console.WriteLine ("dir: {0}", dir);
 			var libraryPaths = new string []
 			{
-				"/Users/rolf/work/maccore/main/xamarin-macios/_ios-build/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS",
+				dir
 			};
 			var references = new string []
 			{
-				"/Users/rolf/work/maccore/main/xamarin-macios/_ios-build/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/Facades/System.Drawing.Common.dll",
-				"/Users/rolf/work/maccore/main/xamarin-macios/_ios-build/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/System.dll",
-				"/Users/rolf/work/maccore/main/xamarin-macios/_ios-build/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/mscorlib.dll",
-				"/Users/rolf/work/maccore/main/xamarin-macios/_ios-build/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/System.Core.dll",
+				Path.Combine (dir, "System.Drawing.Common.dll"),
+				Path.Combine (dir, "System.dll"),
+				Path.Combine (dir, "mscorlib.dll"),
+				Path.Combine (dir, "System.Core.dll"),
 			};
 
 			var universe = new MetadataLoadContext (
@@ -30,7 +32,7 @@ namespace TestBlock {
 				"mscorlib"
 			);
 
-			var baselib = universe.LoadFromAssemblyPath ("/Users/rolf/work/maccore/main/xamarin-macios/_ios-build/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/Xamarin.iOS.dll");
+			var baselib = universe.LoadFromAssemblyPath (Path.Combine (dir, "Xamarin.iOS.dll"));
 			var attribs = baselib.GetType ("UserNotificationsUI.IUNNotificationContentExtension").GetMethod ("DidReceiveNotification").GetCustomAttributesData ();
 			Console.WriteLine ("Attrib count: {0}", attribs.Count);
 		}
