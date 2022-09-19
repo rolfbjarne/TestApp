@@ -43,7 +43,10 @@ jobs:
           var fs = require('fs');
           fs.writeFileSync('${{github.workspace}}/autoformat.zip', Buffer.from(download.data));
 
-    - run: unzip autoformat.zip
+    - run: |
+        unzip -d autoformat autoformat.zip
+        ls -la
+        ls -la autoformat
 
     - name: 'Checkout repo'
       uses: actions/checkout@v3
