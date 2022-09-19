@@ -15,8 +15,10 @@ on: pull_request
 #     * We push the commit, and add a label to the PR.
 #
 # Ref:
+#     https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_run
 #     https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
 #     https://github.com/actions/checkout/issues/455
+#     https://stackoverflow.com/a/65081720/183422
 #
 
 jobs:
