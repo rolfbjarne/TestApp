@@ -12,7 +12,8 @@ jobs:
     name: Push autoformatted code and notify user
     runs-on: ubuntu-latest
     if: >
-      contains(github.event.pull_request.labels.*.name, 'actions-enable-autoformat')
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
 
     steps:
     - name: 'Debug stuff'
