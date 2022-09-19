@@ -20,6 +20,7 @@ jobs:
       run: |
         echo "github.event.workflow_run.event: ${{github.event.workflow_run.event}}"
         echo "github.event.workflow_run.conclusion: ${{github.event.workflow_run.conclusion}}"
+        env | sort
 
     - name: 'Download artifacts'
       uses: actions/github-script@v3.1.0
