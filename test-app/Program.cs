@@ -18,5 +18,4 @@ class gdb {
 		//string res = ConsoleApplication1.Properties.Resources.String1;
 		Console.WriteLine (res);
 	}
-
 }
