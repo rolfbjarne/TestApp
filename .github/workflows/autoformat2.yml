@@ -1,4 +1,4 @@
-name: Autoformat code part 2
+name: Autoformat code - publish results
 on:
   workflow_run:
     workflows: ["Autoformat code"]
@@ -38,17 +38,23 @@ jobs:
           fs.writeFileSync('${{github.workspace}}/autoformat.zip', Buffer.from(download.data));
 
     - name: 'Unzip artifacts'
+      id: unzip_artifacts
       run: |
         unzip -d ../autoformat autoformat.zip
+        if test -f ../autoformat/autoformat.patch; then
+          echo "::set-output name=autoformatted::true"
+        fi
 
     - name: 'Checkout repo'
       uses: actions/checkout@v3
+      if: steps.autoformat.outputs.autoformatted == 'true'
       with:
         fetch-depth: 0
         repository: ${{ github.event.pull_request.head.repo.full_name }}
         ref: ${{ github.event.workflow_run.head_branch }}
 
     - name: 'Get autoformatted commit and push it'
+      if: steps.autoformat.outputs.autoformatted == 'true'
       run: |
         git config user.email "github-actions-autoformatter@xamarin.com"
         git config user.name "GitHub Actions Autoformatter"
@@ -58,6 +64,7 @@ jobs:
         git push
 
     - name: 'Yell at user'
+      if: steps.autoformat.outputs.autoformatted == 'true'
       uses: actions/github-script@v6
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
