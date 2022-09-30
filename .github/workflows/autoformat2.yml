@@ -70,7 +70,7 @@ jobs:
         cat ../autoformat/autoformat.patch
         git am < ../autoformat/autoformat.patch
         git show
-        git push
+        #git push
 
     - name: 'Yell at user'
       uses: actions/github-script@v6
@@ -83,5 +83,5 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: issue_number,
-            body: '# :warning: Your code has been reformatted. :warning:\n\nIf this is not desired, add the `actions-skip-autoformat` label, and revert the reformatting commit.'
+            body: '# :warning: Your code has been automatically reformatted. :warning:\n\nIf this is not desired, add the `actions-skip-autoformat` label, and revert the reformatting commit.'
           });
