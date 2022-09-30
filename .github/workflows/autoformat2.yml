@@ -47,14 +47,14 @@ jobs:
 
     - name: 'Checkout repo'
       uses: actions/checkout@v3
-      if: steps.unzip_artifacts.outputs.autoformatted == 'true'
+      if: steps.autoformat.outputs.autoformatted == 'true'
       with:
         fetch-depth: 0
         repository: ${{ github.event.pull_request.head.repo.full_name }}
         ref: ${{ github.event.workflow_run.head_branch }}
 
     - name: 'Get autoformatted commit and push it'
-      if: steps.unzip_artifacts.outputs.autoformatted == 'true'
+      if: steps.autoformat.outputs.autoformatted == 'true'
       run: |
         git config user.email "github-actions-autoformatter@xamarin.com"
         git config user.name "GitHub Actions Autoformatter"
@@ -64,7 +64,7 @@ jobs:
         git push
 
     - name: 'Yell at user'
-      if: steps.unzip_artifacts.outputs.autoformatted == 'true'
+      if: steps.autoformat.outputs.autoformatted == 'true'
       uses: actions/github-script@v6
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
