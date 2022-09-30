@@ -57,8 +57,6 @@ jobs:
 
     - name: 'Get autoformatted commit and push it'
       run: |
-        ls -la || true
-        ls -la autoformat || true
         git show
         git branch
         git am < autoformat/autoformat.patch
