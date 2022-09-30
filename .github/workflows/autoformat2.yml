@@ -65,8 +65,6 @@ jobs:
         pwd
         git show
         git branch
-        git config user.email "github-actions-autoformatter@xamarin.com"
-        git config user.name "GitHub Actions Autoformatter"
         git am < ../autoformat/autoformat.patch
         git show
         #git push
