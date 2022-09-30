@@ -47,7 +47,6 @@ jobs:
         unzip -d autoformat autoformat.zip
         ls -la
         ls -la autoformat
-        pwd
 
     - name: 'Checkout repo'
       uses: actions/checkout@v3
@@ -60,8 +59,6 @@ jobs:
       run: |
         ls -la || true
         ls -la autoformat || true
-        ls -la .. || true
-        pwd
         git show
         git branch
         git am < autoformat/autoformat.patch
